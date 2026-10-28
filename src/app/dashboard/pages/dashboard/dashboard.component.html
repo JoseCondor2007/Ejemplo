@@ -1,0 +1,157 @@
+<div class="dashboard">
+  <!-- ============================================================
+       HEADER: Bienvenida al usuario
+       ============================================================ -->
+  <div class="header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Bienvenido, {{ user?.nombres || 'Usuario' }}</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CONTENT
+       ============================================================ -->
+  <div class="content">
+
+    <!-- ============================================================
+         ESTADÍSTICAS (loading)
+         ============================================================ -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando estadísticas...</p>
+    </div>
+
+    <!-- ============================================================
+         ESTADÍSTICAS: 6 tarjetas (los 6 módulos del frontend)
+         ============================================================ -->
+    <div class="stats-grid" *ngIf="!loading">
+
+      <!-- 1. Estudiantes -->
+      <div class="stat-card">
+        <div class="stat-icon students">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 0 6-2 6-2s3 2 6 2v-5"/></svg>
+        </div>
+        <div>
+          <h3>{{ stats.estudiantes }}</h3>
+          <p>Estudiantes</p>
+        </div>
+      </div>
+
+      <!-- 2. Docentes -->
+      <div class="stat-card">
+        <div class="stat-icon teachers">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <h3>{{ stats.docentes }}</h3>
+          <p>Docentes</p>
+        </div>
+      </div>
+
+      <!-- 3. Matrículas -->
+      <div class="stat-card">
+        <div class="stat-icon enrollments">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <h3>{{ stats.matriculas }}</h3>
+          <p>Matrículas</p>
+        </div>
+      </div>
+
+      <!-- 4. Asignaciones (NUEVO) -->
+      <div class="stat-card">
+        <div class="stat-icon assignments">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h3>{{ stats.asignaciones }}</h3>
+          <p>Asignaciones</p>
+        </div>
+      </div>
+
+      <!-- 5. Competencias (NUEVO) -->
+      <div class="stat-card">
+        <div class="stat-icon competences">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div>
+          <h3>{{ stats.competencias }}</h3>
+          <p>Competencias</p>
+        </div>
+      </div>
+
+      <!-- 6. Instrumentos (NUEVO) -->
+      <div class="stat-card">
+        <div class="stat-icon instruments">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h3>{{ stats.instrumentos }}</h3>
+          <p>Instrumentos</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         ACCIONES RÁPIDAS: 6 accesos directos (los 6 módulos)
+         ============================================================ -->
+    <div class="quick-actions">
+      <h3>Acciones Rápidas</h3>
+      <div class="actions-grid">
+
+        <!-- 1. Estudiantes -->
+        <div class="action-item" routerLink="/estudiantes">
+          <span class="action-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 0 6-2 6-2s3 2 6 2v-5"/></svg>
+          </span>
+          Gestionar Estudiantes
+        </div>
+
+        <!-- 2. Docentes -->
+        <div class="action-item" routerLink="/docentes">
+          <span class="action-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          Gestionar Docentes
+        </div>
+
+        <!-- 3. Matrículas -->
+        <div class="action-item" routerLink="/matriculas">
+          <span class="action-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </span>
+          Gestionar Matrículas
+        </div>
+
+        <!-- 4. Asignaciones (NUEVO) -->
+        <div class="action-item" routerLink="/asignaciones">
+          <span class="action-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+          </span>
+          Gestionar Asignaciones
+        </div>
+
+        <!-- 5. Competencias (NUEVO) -->
+        <div class="action-item" routerLink="/competencias">
+          <span class="action-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </span>
+          Gestionar Competencias
+        </div>
+
+        <!-- 6. Instrumentos (NUEVO) -->
+        <div class="action-item" routerLink="/instrumentos">
+          <span class="action-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+          </span>
+          Gestionar Instrumentos
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,142 @@
+.container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header h2 {
+  margin: 0;
+  color: #1a237e;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  background: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #0d47a1;
+}
+
+.toolbar {
+  margin-bottom: 20px;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.table-container {
+  overflow-x: auto;
+  position: relative;
+  min-height: 200px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; 
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  white-space: nowrap; 
+}
+
+th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+/* ✅ Ancho mínimo para las columnas de Docentes (actualizado con la nueva columna) */
+th:nth-child(1) { min-width: 50px; }   /* ID */
+th:nth-child(2) { min-width: 80px; }   /* Tipo Doc */
+th:nth-child(3) { min-width: 110px; }  /* N° Documento */
+th:nth-child(4) { min-width: 120px; }  /* Nombres */
+th:nth-child(5) { min-width: 120px; }  /* Apellidos */
+th:nth-child(6) { min-width: 100px; }  /* Fecha Nac. */
+th:nth-child(7) { min-width: 140px; }  /* Especialidad */
+th:nth-child(8) { min-width: 180px; }  /* Correo */
+th:nth-child(9) { min-width: 90px; }   /* Estado */
+th:nth-child(10) { min-width: 130px; } /* Acciones */
+
+/* ✅ Para el correo, evitamos que se desborde si es muy largo */
+td:nth-child(8) {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge.inactive {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.btn-edit, .btn-delete, .btn-restore {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 4px;
+}
+
+.btn-edit { background: #e3f2fd; }
+.btn-delete { background: #ffebee; }
+.btn-restore { background: #e8f5e9; }
+
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1a237e;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

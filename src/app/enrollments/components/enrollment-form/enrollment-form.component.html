@@ -1,0 +1,77 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Matrícula' : 'Nueva Matrícula' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Estudiante -->
+        <div class="form-group">
+          <label>Estudiante *</label>
+          <select formControlName="studentId" class="form-control" 
+                  (blur)="f['studentId'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['studentId'].touched) && f['studentId'].invalid">
+            <option value="" disabled>-- Seleccione un Estudiante --</option>
+            <option *ngFor="let est of estudiantes" [value]="est.studentId || est.idEstudiante">
+              {{ est.firstNames || est.nombres }} {{ est.lastNames || est.apellidos }} ({{ est.documentNumber || est.numeroDocumento }})
+            </option>
+          </select>
+          <div *ngIf="(submitted || f['studentId'].touched) && f['studentId'].invalid" class="error">
+            <span *ngIf="f['studentId'].errors?.['required']">⚠ El estudiante es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Sección -->
+        <div class="form-group">
+          <label>Sección *</label>
+          <select formControlName="sectionId" class="form-control" 
+                  (blur)="f['sectionId'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['sectionId'].touched) && f['sectionId'].invalid">
+            <option value="" disabled>-- Seleccione una Sección --</option>
+            <option *ngFor="let sec of secciones" [value]="sec.idSeccion || sec.sectionId">{{ sec.nombre || sec.sectionName }}</option>
+          </select>
+          <div *ngIf="(submitted || f['sectionId'].touched) && f['sectionId'].invalid" class="error">
+            <span *ngIf="f['sectionId'].errors?.['required']">⚠ Debe seleccionar una sección.</span>
+          </div>
+        </div>
+
+        <!-- Periodo Académico -->
+        <div class="form-group">
+          <label>Periodo Académico *</label>
+          <input type="text" formControlName="academicPeriod" class="form-control" placeholder="Ej: 2026-I" 
+                 (blur)="f['academicPeriod'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['academicPeriod'].touched) && f['academicPeriod'].invalid">
+          <div *ngIf="(submitted || f['academicPeriod'].touched) && f['academicPeriod'].invalid" class="error">
+            <span *ngIf="f['academicPeriod'].errors?.['required']">⚠ El periodo es obligatorio.</span>
+            <span *ngIf="f['academicPeriod'].errors?.['pattern']">⚠ El formato debe ser AÑO-I o AÑO-II (Ej: 2026-I).</span>
+          </div>
+        </div>
+
+        <!-- Fecha Matrícula -->
+        <div class="form-group">
+          <label>Fecha de Matrícula *</label>
+          <input type="date" formControlName="enrollmentDate" class="form-control" 
+                 (blur)="f['enrollmentDate'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['enrollmentDate'].touched) && f['enrollmentDate'].invalid">
+          <div *ngIf="(submitted || f['enrollmentDate'].touched) && f['enrollmentDate'].invalid" class="error">
+            <span *ngIf="f['enrollmentDate'].errors?.['required']">⚠ La fecha es obligatoria.</span>
+            <span *ngIf="f['enrollmentDate'].errors?.['fechaFutura']">⚠ La fecha de matrícula no puede ser en el futuro.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || enrollmentForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

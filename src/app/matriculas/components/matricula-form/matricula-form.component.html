@@ -1,0 +1,77 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Matrícula' : 'Nueva Matrícula' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="matriculaForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Estudiante -->
+        <div class="form-group">
+          <label>Estudiante *</label>
+          <select formControlName="idEstudiante" class="form-control" 
+                  (blur)="f['idEstudiante'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['idEstudiante'].touched) && f['idEstudiante'].invalid">
+            <option value="" disabled>-- Seleccione un Estudiante --</option>
+            <option *ngFor="let est of estudiantes" [value]="est.idEstudiante">
+              {{ est.nombres }} {{ est.apellidos }} ({{ est.numeroDocumento }})
+            </option>
+          </select>
+          <div *ngIf="(submitted || f['idEstudiante'].touched) && f['idEstudiante'].invalid" class="error">
+            <span *ngIf="f['idEstudiante'].errors?.['required']">⚠ El estudiante es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Sección -->
+        <div class="form-group">
+          <label>Sección *</label>
+          <select formControlName="idSeccion" class="form-control" 
+                  (blur)="f['idSeccion'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['idSeccion'].touched) && f['idSeccion'].invalid">
+            <option value="" disabled>-- Seleccione una Sección --</option>
+            <option *ngFor="let sec of secciones" [value]="sec.idSeccion">{{ sec.nombre }}</option>
+          </select>
+          <div *ngIf="(submitted || f['idSeccion'].touched) && f['idSeccion'].invalid" class="error">
+            <span *ngIf="f['idSeccion'].errors?.['required']">⚠ Debe seleccionar una sección.</span>
+          </div>
+        </div>
+
+        <!-- Periodo Académico -->
+        <div class="form-group">
+          <label>Periodo Académico *</label>
+          <input type="text" formControlName="periodoAcademico" class="form-control" placeholder="Ej: 2026-I" 
+                 (blur)="f['periodoAcademico'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['periodoAcademico'].touched) && f['periodoAcademico'].invalid">
+          <div *ngIf="(submitted || f['periodoAcademico'].touched) && f['periodoAcademico'].invalid" class="error">
+            <span *ngIf="f['periodoAcademico'].errors?.['required']">⚠ El periodo es obligatorio.</span>
+            <span *ngIf="f['periodoAcademico'].errors?.['pattern']">⚠ El formato debe ser AÑO-I o AÑO-II (Ej: 2026-I).</span>
+          </div>
+        </div>
+
+        <!-- Fecha Matrícula -->
+        <div class="form-group">
+          <label>Fecha de Matrícula *</label>
+          <input type="date" formControlName="fechaMatricula" class="form-control" 
+                 (blur)="f['fechaMatricula'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['fechaMatricula'].touched) && f['fechaMatricula'].invalid">
+          <div *ngIf="(submitted || f['fechaMatricula'].touched) && f['fechaMatricula'].invalid" class="error">
+            <span *ngIf="f['fechaMatricula'].errors?.['required']">⚠ La fecha es obligatoria.</span>
+            <span *ngIf="f['fechaMatricula'].errors?.['fechaFutura']">⚠ La fecha de matrícula no puede ser en el futuro.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || matriculaForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

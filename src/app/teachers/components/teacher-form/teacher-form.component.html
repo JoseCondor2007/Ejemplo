@@ -1,0 +1,120 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Docente' : 'Nuevo Docente' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <!-- ✅ Todo apunta a teacherForm y usa formControlName en inglés -->
+    <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Tipo de Documento -->
+        <div class="form-group">
+          <label>Tipo de Documento *</label>
+          <select formControlName="documentType" class="form-control" 
+                  (blur)="f['documentType'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['documentType'].touched) && f['documentType'].invalid">
+            <option value="DNI">DNI</option>
+            <option value="CE">Carné de Extranjería</option>
+          </select>
+          <div *ngIf="(submitted || f['documentType'].touched) && f['documentType'].invalid" class="error">
+            <span *ngIf="f['documentType'].errors?.['required']">⚠ Tipo de documento es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Número de Documento -->
+        <div class="form-group">
+          <label>Número de Documento *</label>
+          <input type="text" formControlName="documentNumber" class="form-control" placeholder="Ingrese número de documento" 
+                 (blur)="f['documentNumber'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['documentNumber'].touched) && f['documentNumber'].invalid">
+          <div *ngIf="(submitted || f['documentNumber'].touched) && f['documentNumber'].invalid" class="error">
+            <span *ngIf="f['documentNumber'].errors?.['required']">⚠ Número de documento es obligatorio.</span>
+            <span *ngIf="f['documentNumber'].errors?.['pattern']">⚠ Debe contener entre 8 y 12 dígitos numéricos.</span>
+          </div>
+        </div>
+
+        <!-- Nombres -->
+        <div class="form-group">
+          <label>Nombres *</label>
+          <input type="text" formControlName="firstNames" class="form-control" placeholder="Ingrese nombres" 
+                 (blur)="f['firstNames'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['firstNames'].touched) && f['firstNames'].invalid">
+          <div *ngIf="(submitted || f['firstNames'].touched) && f['firstNames'].invalid" class="error">
+            <span *ngIf="f['firstNames'].errors?.['required']">⚠ Nombres son obligatorios.</span>
+            <span *ngIf="f['firstNames'].errors?.['pattern']">⚠ Solo se permiten letras.</span>
+          </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="form-group">
+          <label>Apellidos *</label>
+          <input type="text" formControlName="lastNames" class="form-control" placeholder="Ingrese apellidos" 
+                 (blur)="f['lastNames'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['lastNames'].touched) && f['lastNames'].invalid">
+          <div *ngIf="(submitted || f['lastNames'].touched) && f['lastNames'].invalid" class="error">
+            <span *ngIf="f['lastNames'].errors?.['required']">⚠ Apellidos son obligatorios.</span>
+            <span *ngIf="f['lastNames'].errors?.['pattern']">⚠ Solo se permiten letras.</span>
+          </div>
+        </div>
+
+        <!-- Fecha de Nacimiento -->
+        <div class="form-group">
+          <label>Fecha de Nacimiento *</label>
+          <input type="date" formControlName="birthDate" class="form-control"
+                 (blur)="f['birthDate'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['birthDate'].touched) && f['birthDate'].invalid">
+          <div *ngIf="(submitted || f['birthDate'].touched) && f['birthDate'].invalid" class="error">
+            <span *ngIf="f['birthDate'].errors?.['required']">⚠ La fecha es obligatoria.</span>
+          </div>
+        </div>
+
+        <!-- Especialidad -->
+        <div class="form-group">
+          <label>Especialidad *</label>
+          <input type="text" formControlName="specialty" class="form-control" placeholder="Ingrese especialidad" 
+                 (blur)="f['specialty'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['specialty'].touched) && f['specialty'].invalid">
+          <div *ngIf="(submitted || f['specialty'].touched) && f['specialty'].invalid" class="error">
+            <span *ngIf="f['specialty'].errors?.['required']">⚠ Especialidad es obligatoria.</span>
+          </div>
+        </div>
+
+        <!-- Correo -->
+        <div class="form-group">
+          <label>Correo *</label>
+          <input type="email" formControlName="email" class="form-control" placeholder="Ingrese correo" 
+                 (blur)="f['email'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['email'].touched) && f['email'].invalid">
+          <div *ngIf="(submitted || f['email'].touched) && f['email'].invalid" class="error">
+            <span *ngIf="f['email'].errors?.['required']">⚠ Correo es obligatorio.</span>
+            <span *ngIf="f['email'].errors?.['email']">⚠ Formato inválido.</span>
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+          <label>Teléfono *</label>
+          <input type="text" formControlName="phone" class="form-control" placeholder="Ingrese teléfono (9 dígitos)" maxlength="9" 
+                 (blur)="f['phone'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['phone'].touched) && f['phone'].invalid">
+          <div *ngIf="(submitted || f['phone'].touched) && f['phone'].invalid" class="error">
+            <span *ngIf="f['phone'].errors?.['required']">⚠ Teléfono es obligatorio.</span>
+            <span *ngIf="f['phone'].errors?.['pattern']">⚠ Debe tener 9 dígitos.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || teacherForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

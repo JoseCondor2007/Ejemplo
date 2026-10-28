@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Docentes</h2>
+    <button class="btn-primary" routerLink="/docentes/nuevo">+ Nuevo Docente</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo Doc.</th> <!-- ✅ NUEVA COLUMNA -->
+          <th>N° Documento</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Fecha Nac.</th>
+          <th>Especialidad</th>
+          <th>Correo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let teacher of teachers">
+          <td>{{ teacher.teacherId }}</td>
+          <td>{{ teacher.documentType }}</td> <!-- ✅ NUEVA COLUMNA -->
+          <td>{{ teacher.documentNumber }}</td>
+          <td>{{ teacher.firstNames }}</td>
+          <td>{{ teacher.lastNames }}</td>
+          <td>{{ teacher.birthDate }}</td> 
+          <td>{{ teacher.specialty }}</td>
+          <td>{{ teacher.email }}</td>
+          <td>
+            <span class="badge" [class.active]="teacher.status === true" [class.inactive]="teacher.status === false">
+              {{ teacher.status ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/docentes/editar', teacher.teacherId]" title="Editar">✏️</button>
+            <button *ngIf="teacher.status === true" class="btn-delete" (click)="desactivar(teacher.teacherId!)" title="Desactivar">🗑️</button>
+            <button *ngIf="teacher.status === false" class="btn-restore" (click)="restaurar(teacher.teacherId!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

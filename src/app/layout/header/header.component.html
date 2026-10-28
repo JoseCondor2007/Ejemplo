@@ -1,0 +1,16 @@
+<header class="header">
+  <div class="header-left">
+    <h2>Módulo Académico - Registro de Evaluaciones</h2>
+  </div>
+  <div class="header-right">
+    <div class="user-info">
+      <span class="user-name">{{ user?.nombres || 'Usuario' }}</span>
+      <span class="user-role">{{ user?.rol || 'Docente' }}</span>
+    </div>
+    
+    <!-- Avatar con la inicial del usuario -->
+    <div class="user-avatar" [title]="user?.nombres || 'Usuario'">
+      {{ (user?.nombres || 'U').charAt(0).toUpperCase() }}
+    </div>
+  </div>
+</header>

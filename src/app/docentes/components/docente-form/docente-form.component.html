@@ -1,0 +1,119 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Docente' : 'Nuevo Docente' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="docenteForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Tipo de Documento -->
+        <div class="form-group">
+          <label>Tipo de Documento *</label>
+          <select formControlName="tipoDocumento" class="form-control" 
+                  (blur)="f['tipoDocumento'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['tipoDocumento'].touched) && f['tipoDocumento'].invalid">
+            <option value="DNI">DNI</option>
+            <option value="CE">Carné de Extranjería</option>
+          </select>
+          <div *ngIf="(submitted || f['tipoDocumento'].touched) && f['tipoDocumento'].invalid" class="error">
+            <span *ngIf="f['tipoDocumento'].errors?.['required']">⚠ Tipo de documento es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Número de Documento -->
+        <div class="form-group">
+          <label>Número de Documento *</label>
+          <input type="text" formControlName="numeroDocumento" class="form-control" placeholder="Ingrese número de documento" 
+                 (blur)="f['numeroDocumento'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['numeroDocumento'].touched) && f['numeroDocumento'].invalid">
+          <div *ngIf="(submitted || f['numeroDocumento'].touched) && f['numeroDocumento'].invalid" class="error">
+            <span *ngIf="f['numeroDocumento'].errors?.['required']">⚠ Número de documento es obligatorio.</span>
+            <span *ngIf="f['numeroDocumento'].errors?.['pattern']">⚠ Debe contener entre 8 y 12 dígitos numéricos.</span>
+            <span *ngIf="f['numeroDocumento'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Nombres -->
+        <div class="form-group">
+          <label>Nombres *</label>
+          <input type="text" formControlName="nombres" class="form-control" placeholder="Ingrese nombres" 
+                 (blur)="f['nombres'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['nombres'].touched) && f['nombres'].invalid">
+          <div *ngIf="(submitted || f['nombres'].touched) && f['nombres'].invalid" class="error">
+            <span *ngIf="f['nombres'].errors?.['required']">⚠ Nombres son obligatorios.</span>
+            <span *ngIf="f['nombres'].errors?.['minlength']">⚠ Mínimo 3 caracteres.</span>
+            <span *ngIf="f['nombres'].errors?.['maxlength']">⚠ Máximo 50 caracteres.</span>
+            <span *ngIf="f['nombres'].errors?.['pattern']">⚠ Solo se permiten letras.</span>
+            <span *ngIf="f['nombres'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="form-group">
+          <label>Apellidos *</label>
+          <input type="text" formControlName="apellidos" class="form-control" placeholder="Ingrese apellidos" 
+                 (blur)="f['apellidos'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['apellidos'].touched) && f['apellidos'].invalid">
+          <div *ngIf="(submitted || f['apellidos'].touched) && f['apellidos'].invalid" class="error">
+            <span *ngIf="f['apellidos'].errors?.['required']">⚠ Apellidos son obligatorios.</span>
+            <span *ngIf="f['apellidos'].errors?.['minlength']">⚠ Mínimo 3 caracteres.</span>
+            <span *ngIf="f['apellidos'].errors?.['maxlength']">⚠ Máximo 50 caracteres.</span>
+            <span *ngIf="f['apellidos'].errors?.['pattern']">⚠ Solo se permiten letras.</span>
+            <span *ngIf="f['apellidos'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Especialidad -->
+        <div class="form-group">
+          <label>Especialidad *</label>
+          <input type="text" formControlName="especialidad" class="form-control" placeholder="Ingrese especialidad" 
+                 (blur)="f['especialidad'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['especialidad'].touched) && f['especialidad'].invalid">
+          <div *ngIf="(submitted || f['especialidad'].touched) && f['especialidad'].invalid" class="error">
+            <span *ngIf="f['especialidad'].errors?.['required']">⚠ Especialidad es obligatoria.</span>
+            <span *ngIf="f['especialidad'].errors?.['minlength']">⚠ Mínimo 4 caracteres.</span>
+            <span *ngIf="f['especialidad'].errors?.['maxlength']">⚠ Máximo 60 caracteres.</span>
+            <span *ngIf="f['especialidad'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Correo -->
+        <div class="form-group">
+          <label>Correo *</label>
+          <input type="email" formControlName="correo" class="form-control" placeholder="Ingrese correo" 
+                 (blur)="f['correo'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['correo'].touched) && f['correo'].invalid">
+          <div *ngIf="(submitted || f['correo'].touched) && f['correo'].invalid" class="error">
+            <span *ngIf="f['correo'].errors?.['required']">⚠ Correo es obligatorio.</span>
+            <span *ngIf="f['correo'].errors?.['email']">⚠ Formato de correo inválido.</span>
+            <span *ngIf="f['correo'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+          <label>Teléfono *</label>
+          <input type="text" formControlName="telefono" class="form-control" placeholder="Ingrese teléfono (9 dígitos)" maxlength="9" inputmode="numeric" 
+                 (blur)="f['telefono'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['telefono'].touched) && f['telefono'].invalid">
+          <div *ngIf="(submitted || f['telefono'].touched) && f['telefono'].invalid" class="error">
+            <span *ngIf="f['telefono'].errors?.['required']">⚠ Teléfono es obligatorio.</span>
+            <span *ngIf="f['telefono'].errors?.['pattern']">⚠ Debe contener exactamente 9 dígitos numéricos.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || docenteForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

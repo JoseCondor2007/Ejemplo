@@ -1,0 +1,20 @@
+<div class="app-container">
+  <!-- Layout con sidebar, header y footer (SOLO PARA EL DASHBOARD) -->
+  <ng-container *ngIf="showLayout; else noLayoutTemplate">
+    <app-sidebar></app-sidebar>
+    <div class="main-content">
+      <app-header></app-header>
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+      <app-footer></app-footer>
+    </div>
+  </ng-container>
+  
+  <!-- Splash, Landing y Login (OCUPA EL 100% DE LA PANTALLA) -->
+  <ng-template #noLayoutTemplate>
+    <div class="full-screen-layout">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Docentes</h2>
+    <button class="btn-primary" routerLink="/docentes/nuevo">+ Nuevo Docente</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>N° Documento</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Especialidad</th>
+          <th>Correo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let docente of docentes">
+          <td>{{ docente.idDocente }}</td>
+          <td>{{ docente.numeroDocumento }}</td>
+          <td>{{ docente.nombres }}</td>
+          <td>{{ docente.apellidos }}</td>
+          <td>{{ docente.especialidad }}</td>
+          <td>{{ docente.correo }}</td>
+          <td>
+            <span class="badge" [class.active]="docente.estado === true" [class.inactive]="docente.estado === false">
+              {{ docente.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/docentes/editar', docente.idDocente]" title="Editar">✏️</button>
+            <button *ngIf="docente.estado === true" class="btn-delete" (click)="desactivar(docente.idDocente!)" title="Desactivar">🗑️</button>
+            <button *ngIf="docente.estado === false" class="btn-restore" (click)="restaurar(docente.idDocente!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

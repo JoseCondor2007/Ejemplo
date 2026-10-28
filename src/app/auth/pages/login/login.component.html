@@ -1,0 +1,146 @@
+<div class="login-container">
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="loading-content">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+      <p class="loading-text">Verificando credenciales...</p>
+    </div>
+  </div>
+
+  <!-- ✅ WRAPPER CON SCROLL -->
+  <div class="login-wrapper">
+    <div class="login-box">
+      <!-- Header -->
+      <div class="login-header">
+        <div class="logo-container">
+          <img src="assets/images/logo.png" alt="Portal Académico" class="logo">
+        </div>
+        <h1>Portal Académico</h1>
+        <p class="subtitle">Chile Digital</p>
+        <p class="subtitle-2">Seguimiento y Logro de Aprendizajes</p>
+      </div>
+
+      <!-- Acceso institucional -->
+      <div class="institutional-access">
+        <span class="access-title">Acceso institucional</span>
+        <span class="access-subtitle">(El portal de República de Chile)</span>
+      </div>
+
+      <!-- Formulario -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+        
+        <!-- Rol de Usuario -->
+        <div class="form-group">
+          <label for="role">Rol de Usuario</label>
+          <div class="input-group">
+            <span class="input-icon">
+              <!-- SVG Usuario -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+            <select 
+              id="role"
+              formControlName="role"
+              class="form-control"
+              style="appearance: auto; padding-right: 12px;">
+              <option value="">Seleccione su rol</option>
+              <option value="admin">Administrador</option>
+              <option value="director">Director</option>
+              <option value="docente">Docente</option>
+              <option value="especialista">Especialista</option>
+              <option value="padre">Padre/Tutor</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <div class="input-group">
+            <span class="input-icon">
+              <!-- SVG Correo -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </span>
+            <input 
+              id="email"
+              type="email" 
+              formControlName="email" 
+              placeholder="correo@ejemplo.com" 
+              class="form-control"
+              [class.is-invalid]="email?.invalid && email?.touched"
+              autocomplete="email">
+          </div>
+          <div *ngIf="email?.invalid && email?.touched" class="invalid-feedback">
+            <span *ngIf="email?.errors?.['required']">El correo es obligatorio</span>
+            <span *ngIf="email?.errors?.['email']">Ingrese un correo válido</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-group">
+            <span class="input-icon">
+              <!-- SVG Candado -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </span>
+            <input 
+              id="password"
+              [type]="showPassword ? 'text' : 'password'" 
+              formControlName="password" 
+              placeholder="Ingrese su contraseña" 
+              class="form-control"
+              [class.is-invalid]="password?.invalid && password?.touched"
+              autocomplete="current-password">
+            <button 
+              type="button" 
+              class="password-toggle" 
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              <!-- SVG Ojo -->
+              <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            </button>
+          </div>
+          <div *ngIf="password?.invalid && password?.touched" class="invalid-feedback">
+            <span *ngIf="password?.errors?.['required']">La contraseña es obligatoria</span>
+            <span *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres</span>
+          </div>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="form-group remember-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="rememberMe">
+            <span class="checkbox-text">Recordarme</span>
+          </label>
+          <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="error-message">
+          <span class="error-icon">
+            <!-- SVG Alerta -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          </span>
+          {{ errorMessage }}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-login" [disabled]="loginForm.invalid || loading">
+          <span *ngIf="!loading">Iniciar Sesión</span>
+          <span *ngIf="loading">Iniciando sesión...</span>
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="login-footer">
+        <p class="footer-text">© 2026 Portal Académico - Chile Digital</p>
+        <p class="footer-text">Todos los derechos reservados</p>
+      </div>
+    </div>
+  </div>
+</div>

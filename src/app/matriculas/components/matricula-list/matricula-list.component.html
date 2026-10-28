@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Matrículas</h2>
+    <button class="btn-primary" routerLink="/matriculas/nuevo">+ Nueva Matrícula</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+    <label class="search">
+      <span>Buscar:</span>
+      <input
+        type="search"
+        [(ngModel)]="searchTerm"
+        placeholder="ID, estudiante, sección o periodo"
+        aria-label="Buscar matrícula">
+    </label>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ID Estudiante</th>
+          <th>ID Sección</th>
+          <th>Periodo</th>
+          <th>Fecha Matrícula</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let matricula of filteredMatriculas">
+          <td>{{ matricula.idMatricula }}</td>
+          <td>{{ matricula.idEstudiante }}</td>
+          <td>{{ matricula.idSeccion }}</td>
+          <td>{{ matricula.periodoAcademico }}</td>
+          <td>{{ matricula.fechaMatricula }}</td>
+          <td>
+            <span class="badge" [class.active]="matricula.estado === true" [class.inactive]="matricula.estado === false">
+              {{ matricula.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/matriculas/editar', matricula.idMatricula]" title="Editar">✏️</button>
+            <button *ngIf="matricula.estado === true" class="btn-delete" (click)="desactivar(matricula.idMatricula!)" title="Desactivar">🗑️</button>
+            <button *ngIf="matricula.estado === false" class="btn-restore" (click)="restaurar(matricula.idMatricula!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredMatriculas.length === 0">
+          <td colspan="7" class="empty">No se encontraron matrículas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

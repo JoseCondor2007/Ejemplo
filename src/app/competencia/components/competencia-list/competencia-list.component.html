@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Competencias</h2>
+    <button class="btn-primary" routerLink="/competencias/nuevo">+ Nueva Competencia</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Curso ID</th>
+          <th>Capacidades</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comp of competencias">
+          <td>{{ comp.idCompetencia }}</td>
+          <td>{{ comp.codigo }}</td>
+          <td>{{ comp.nombre }}</td>
+          <td>{{ comp.descripcion }}</td>
+          <td>{{ comp.idCurso }}</td>
+
+          <!-- ✅ Capacidades sin punto manual -->
+          <td>
+            <ul class="capacidades-list"
+                *ngIf="getCapacidades(comp.capacidades).length > 0; else sinCapacidades">
+              <li *ngFor="let cap of getCapacidades(comp.capacidades)">{{ cap }}</li>
+            </ul>
+            <ng-template #sinCapacidades>
+              <span class="sin-datos">Sin capacidades</span>
+            </ng-template>
+          </td>
+
+          <td>
+            <span class="badge"
+                  [class.active]="comp.estado === true"
+                  [class.inactive]="comp.estado === false">
+              {{ comp.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit"
+                    [routerLink]="['/competencias/editar', comp.idCompetencia]"
+                    title="Editar">✏️</button>
+            <button *ngIf="comp.estado === true"
+                    class="btn-delete"
+                    (click)="desactivar(comp.idCompetencia!)"
+                    title="Desactivar">🗑️</button>
+            <button *ngIf="comp.estado === false"
+                    class="btn-restore"
+                    (click)="restaurar(comp.idCompetencia!)"
+                    title="Restaurar">🔄</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Competencia' : 'Nueva Competencia' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="competenciaForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Curso -->
+        <div class="form-group">
+          <label>Curso *</label>
+          <select formControlName="idCurso" class="form-control" 
+                  (blur)="f['idCurso'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['idCurso'].touched) && f['idCurso'].invalid">
+            <option value="">-- Seleccione un curso --</option>
+            <option *ngFor="let curso of cursos" [value]="curso.idCurso">{{ curso.nombre }}</option>
+          </select>
+          <div *ngIf="(submitted || f['idCurso'].touched) && f['idCurso'].invalid" class="error">
+            <span *ngIf="f['idCurso'].errors?.['required']">⚠ Curso es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Código -->
+        <div class="form-group">
+          <label>Código *</label>
+          <input type="text" formControlName="codigo" class="form-control" placeholder="Ej: C01" 
+                 (blur)="f['codigo'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['codigo'].touched) && f['codigo'].invalid">
+          <div *ngIf="(submitted || f['codigo'].touched) && f['codigo'].invalid" class="error">
+            <span *ngIf="f['codigo'].errors?.['required']">⚠ Código es obligatorio.</span>
+            <span *ngIf="f['codigo'].errors?.['minlength']">⚠ Mínimo 3 caracteres.</span>
+            <span *ngIf="f['codigo'].errors?.['maxlength']">⚠ Máximo 10 caracteres.</span>
+            <span *ngIf="f['codigo'].errors?.['pattern']">⚠ Solo se permiten mayúsculas, números y guiones.</span>
+            <span *ngIf="f['codigo'].errors?.['sinEspacios']">⚠ El código no puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group full-width">
+          <label>Nombre *</label>
+          <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre de la competencia" 
+                 (blur)="f['nombre'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['nombre'].touched) && f['nombre'].invalid">
+          <div *ngIf="(submitted || f['nombre'].touched) && f['nombre'].invalid" class="error">
+            <span *ngIf="f['nombre'].errors?.['required']">⚠ Nombre es obligatorio.</span>
+            <span *ngIf="f['nombre'].errors?.['minlength']">⚠ Mínimo 5 caracteres.</span>
+            <span *ngIf="f['nombre'].errors?.['maxlength']">⚠ Máximo 100 caracteres.</span>
+            <span *ngIf="f['nombre'].errors?.['sinEspacios']">⚠ El nombre no puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group full-width">
+          <label>Descripción</label>
+          <input type="text" formControlName="descripcion" class="form-control" placeholder="Descripción (Opcional)" 
+                 (blur)="f['descripcion'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['descripcion'].touched) && f['descripcion'].invalid">
+          <div *ngIf="(submitted || f['descripcion'].touched) && f['descripcion'].invalid" class="error">
+            <span *ngIf="f['descripcion'].errors?.['maxlength']">⚠ Máximo 250 caracteres.</span>
+          </div>
+        </div>
+
+        <!-- Capacidades (FormArray) -->
+        <div class="form-group full-width" formArrayName="capacidadesArray">
+          <label>Capacidades *</label>
+          <div *ngFor="let cap of capacidadesArray.controls; let i = index" class="capacidad-row">
+            <div class="input-wrapper">
+              <input [formControlName]="i" class="form-control" placeholder="Ej: Comunica y argumenta" 
+                     (blur)="cap.markAsTouched()"
+                     [class.is-invalid]="(submitted || cap.touched) && cap.invalid">
+              <div *ngIf="(submitted || cap.touched) && cap.invalid" class="error">
+                <span *ngIf="cap.errors?.['required']">⚠ Capacidad obligatoria.</span>
+                <span *ngIf="cap.errors?.['minlength']">⚠ Mínimo 5 caracteres.</span>
+                <span *ngIf="cap.errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+              </div>
+            </div>
+            <button type="button" class="btn-remove" (click)="removeCapacidad(i)" [disabled]="capacidadesArray.length === 1">✖</button>
+          </div>
+          <button type="button" class="btn-add" (click)="addCapacidad()" [disabled]="capacidadesArray.length >= 5">
+            + Agregar capacidad {{ capacidadesArray.length >= 5 ? '(Máximo alcanzado)' : '' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || competenciaForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

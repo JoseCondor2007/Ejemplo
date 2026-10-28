@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Instrumentos de Evaluación</h2>
+    <!-- CORREGIDO: La ruta base en AppRoutingModule es 'instrumentos' -->
+    <button class="btn-primary" routerLink="/instrumentos/nuevo">+ Nuevo Instrumento</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Peso</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inst of instrumentos">
+          <td>{{ inst.idInstrumento }}</td>
+          <td>{{ inst.nombre }}</td>
+          <td>{{ inst.tipo }}</td>
+          <td>{{ inst.pesoConceptual }}</td>
+          <td>{{ inst.fechaEvaluacion || 'N/A' }}</td>
+          <td>
+            <span class="badge" [class.active]="inst.estado === true" [class.inactive]="inst.estado === false">
+              {{ inst.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <!-- CORREGIDO: Ruta de edición ajustada a la base 'instrumentos' -->
+            <button class="btn-edit" [routerLink]="['/instrumentos/editar', inst.idInstrumento]" title="Editar">✏️</button>
+            <button *ngIf="inst.estado === true" class="btn-delete" (click)="desactivar(inst.idInstrumento!)" title="Desactivar">🗑️</button>
+            <button *ngIf="inst.estado === false" class="btn-restore" (click)="restaurar(inst.idInstrumento!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

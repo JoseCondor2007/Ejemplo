@@ -1,0 +1,110 @@
+.verificacion-container {
+  position: fixed;       /* 🔥 Ignora el layout padre */
+  top: 0;
+  left: 0;
+  width: 100vw;          /* Ocupa todo el ancho */
+  height: 100vh;         /* Ocupa todo el alto */
+  background-color: #121e48;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  z-index: 9999;         /* Se pone por encima del sidebar */
+  margin: 0;
+  padding: 0;
+}
+
+/* El resto de tus estilos se mantienen igual */
+.verificacion-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 512px;
+  padding: 0 32px;
+  text-align: center;
+}
+
+.icono-nube {
+  margin-bottom: 16px;
+}
+
+.icono-nube svg {
+  width: 48px;
+  height: 48px;
+  color: #e12531;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  animation: rotate 2s linear infinite;
+}
+
+.spinner .path {
+  stroke: #e12531;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+.textos-dinamicos h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0 8px 0;
+  color: white;
+}
+
+.textos-dinamicos p {
+  font-size: 18px;
+  line-height: 28px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  height: 56px;
+  transition: opacity 0.5s ease;
+}
+
+.fade-in-text {
+  animation: fadeInOut 3s infinite;
+}
+
+.progreso-wrapper {
+  width: 100%;
+  height: 4px;
+  background: #121e48;
+  border-radius: 9999px;
+  margin-top: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progreso-interno {
+  height: 100%;
+  background: #e12531;
+  border-radius: 9999px;
+  animation: progress 4s ease-in-out infinite alternate;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes dash {
+  0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}

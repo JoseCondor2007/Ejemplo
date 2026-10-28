@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Asignaciones</h2>
+    <button class="btn-primary" routerLink="/asignaciones/nuevo">+ Nueva Asignación</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ID Docente</th>
+          <th>ID Curso</th>
+          <th>ID Sección</th>
+          <th>Año</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asignacion of asignaciones">
+          <td>{{ asignacion.idAsignacion }}</td>
+          <td>{{ asignacion.idDocente }}</td>
+          <td>{{ asignacion.idCurso }}</td>
+          <td>{{ asignacion.idSeccion }}</td>
+          <td>{{ asignacion.anio }}</td>
+          <td>
+            <span class="badge" [class.active]="asignacion.estado === true" [class.inactive]="asignacion.estado === false">
+              {{ asignacion.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/asignaciones/editar', asignacion.idAsignacion]" title="Editar">✏️</button>
+            <button *ngIf="asignacion.estado === true" class="btn-delete" (click)="desactivar(asignacion.idAsignacion!)" title="Desactivar">🗑️</button>
+            <button *ngIf="asignacion.estado === false" class="btn-restore" (click)="restaurar(asignacion.idAsignacion!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

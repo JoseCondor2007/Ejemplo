@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Instrumentos de Evaluación</h2>
+    <button class="btn-primary" routerLink="/instrumentos/nuevo">+ Nuevo Instrumento</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Peso</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inst of instrumentos">
+          <td>{{ inst.instrumentId }}</td>
+          <td>{{ inst.instrumentName }}</td>
+          <td>{{ inst.type }}</td>
+          <td>{{ inst.conceptualWeight }}</td>
+          <td>{{ inst.assessmentDate || 'N/A' }}</td>
+          <td>
+            <span class="badge" [class.active]="inst.status === true" [class.inactive]="inst.status === false">
+              {{ inst.status ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/instrumentos/editar', inst.instrumentId]" title="Editar">✏️</button>
+            <button *ngIf="inst.status === true" class="btn-delete" (click)="desactivar(inst.instrumentId!)" title="Desactivar">🗑️</button>
+            <button *ngIf="inst.status === false" class="btn-restore" (click)="restaurar(inst.instrumentId!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

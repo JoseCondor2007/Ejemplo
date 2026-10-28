@@ -1,0 +1,113 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Asignación' : 'Nueva Asignación' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="asignacionForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Docente -->
+        <div class="form-group">
+          <label>Docente *</label>
+          <select formControlName="teacherId" class="form-control" 
+                  (blur)="f['teacherId'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['teacherId'].touched) && f['teacherId'].invalid">
+            <option value="" disabled>-- Seleccione un Docente --</option>
+            <!-- ✅ Solo propiedades en inglés -->
+            <option *ngFor="let docente of docentes" [value]="docente.teacherId">
+              {{ docente.firstNames }} {{ docente.lastNames }}
+            </option>
+          </select>
+          <div *ngIf="(submitted || f['teacherId'].touched) && f['teacherId'].invalid" class="error">
+            <span *ngIf="f['teacherId'].errors?.['required']">⚠ Debe seleccionar un docente.</span>
+          </div>
+        </div>
+
+        <!-- Curso -->
+        <div class="form-group">
+          <label>Curso *</label>
+          <select formControlName="courseId" class="form-control" 
+                  (blur)="f['courseId'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['courseId'].touched) && f['courseId'].invalid">
+            <option value="" disabled>-- Seleccione un Curso --</option>
+            <!-- ✅ Usa 'courseId' y 'courseName' si los traes de BD, o 'idCurso' y 'nombre' si los tienes hardcodeados en el TS -->
+            <option *ngFor="let curso of cursos" [value]="curso.courseId || curso.idCurso">
+              {{ curso.courseName || curso.nombre }}
+            </option>
+          </select>
+          <div *ngIf="(submitted || f['courseId'].touched) && f['courseId'].invalid" class="error">
+            <span *ngIf="f['courseId'].errors?.['required']">⚠ Debe seleccionar un curso.</span>
+          </div>
+        </div>
+
+        <!-- Sección -->
+        <div class="form-group">
+          <label>Sección *</label>
+          <select formControlName="sectionId" class="form-control" 
+                  (blur)="f['sectionId'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['sectionId'].touched) && f['sectionId'].invalid">
+            <option value="" disabled>-- Seleccione una Sección --</option>
+            <option *ngFor="let seccion of secciones" [value]="seccion.sectionId || seccion.idSeccion">
+              {{ seccion.sectionName || seccion.nombre }}
+            </option>
+          </select>
+          <div *ngIf="(submitted || f['sectionId'].touched) && f['sectionId'].invalid" class="error">
+            <span *ngIf="f['sectionId'].errors?.['required']">⚠ Debe seleccionar una sección.</span>
+          </div>
+        </div>
+
+        <!-- Año -->
+        <div class="form-group">
+          <label>Año *</label>
+          <input type="number" formControlName="years" class="form-control" placeholder="2026" min="2020" 
+                 (blur)="f['years'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['years'].touched) && f['years'].invalid">
+          <div *ngIf="(submitted || f['years'].touched) && f['years'].invalid" class="error">
+            <span *ngIf="f['years'].errors?.['required']">⚠ El año es obligatorio.</span>
+            <span *ngIf="f['years'].errors?.['min']">⚠ El año debe ser mayor o igual a 2020.</span>
+            <span *ngIf="f['years'].errors?.['max']">⚠ El año no puede ser mayor al actual.</span>
+          </div>
+        </div>
+
+        <!-- Fecha de Asignación -->
+        <div class="form-group">
+          <label>Fecha de Asignación *</label>
+          <input type="date" formControlName="assignmentDate" class="form-control"
+                 (blur)="f['assignmentDate'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['assignmentDate'].touched) && f['assignmentDate'].invalid">
+          <div *ngIf="(submitted || f['assignmentDate'].touched) && f['assignmentDate'].invalid" class="error">
+            <span *ngIf="f['assignmentDate'].errors?.['required']">⚠ La fecha es obligatoria.</span>
+          </div>
+        </div>
+
+        <!-- Horas Asignadas -->
+        <div class="form-group">
+          <label>Horas Asignadas</label>
+          <input type="number" formControlName="assignedHours" class="form-control" placeholder="Ej. 5"
+                 [class.is-invalid]="(submitted || f['assignedHours'].touched) && f['assignedHours'].invalid">
+          <div *ngIf="(submitted || f['assignedHours'].touched) && f['assignedHours'].invalid" class="error">
+            <span *ngIf="f['assignedHours'].errors?.['min']">⚠ Debe ser mayor a 0.</span>
+          </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="form-group full-width">
+          <label>Observaciones</label>
+          <input type="text" formControlName="observations" class="form-control" placeholder="Opcional">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || asignacionForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

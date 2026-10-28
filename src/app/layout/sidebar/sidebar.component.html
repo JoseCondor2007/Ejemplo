@@ -1,0 +1,28 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="assets/images/logo.png" alt="Logo" class="sidebar-logo">
+    <div class="header-texts">
+      <h2>Portal Académico</h2>
+      <p>Chile Digital</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <a (click)="navigateTo(item.route)" routerLinkActive="active" [title]="item.label">
+          <span class="menu-icon" [innerHTML]="item.icon"></span>
+          <span class="menu-label">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button (click)="logout()" class="btn-logout-sidebar" title="Cerrar Sesión">
+      <!-- Icono de salida -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      <span class="menu-label">Cerrar Sesión</span>
+    </button>
+  </div>
+</aside>

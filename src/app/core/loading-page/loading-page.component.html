@@ -1,0 +1,342 @@
+<!-- ========================================== -->
+<!-- NAVBAR -->
+<!-- ========================================== -->
+<nav class="navbar">
+  <div class="navbar__container">
+    <a (click)="scrollToSection('inicio', $event)" class="navbar__logo" style="cursor: pointer;">
+      <img src="assets/images/logo.png" alt="Logo I.E. República de Chile" class="navbar__logo-img">
+      <span class="navbar__logo-text">I.E. República de Chile</span>
+    </a>
+    <ul class="navbar__menu">
+      <li *ngFor="let item of menuItems">
+        <a (click)="scrollToSection(item.id, $event)" class="navbar__link">{{ item.label }}</a>
+      </li>
+    </ul>
+    <button (click)="irAlLogin()" class="navbar__cta">Acceder al Portal</button>
+  </div>
+</nav>
+
+<!-- ========================================== -->
+<!-- HERO (INICIO) -->
+<!-- ========================================== -->
+<section id="inicio" class="hero">
+  <div class="hero__container">
+    <h1 class="hero__title">
+      Transforma el control de notas en una gestión académica inteligente
+    </h1>
+    <p class="hero__subtitle">
+      Portal académico centralizado para la I.E. N.° 20190 "República de Chile".
+      Automatiza el seguimiento por competencias (CNEB), conecta a los padres
+      y detecta alertas tempranas de bajo rendimiento.
+    </p>
+    <div class="hero__actions">
+      <button (click)="irAlLogin()" class="btn btn--primary">Acceder al Portal Académico</button>
+      <button (click)="scrollToSection('servicios', $event)" class="btn btn--outline">Ver Servicios</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- NOSOTROS -->
+<!-- ========================================== -->
+<section class="about" id="nosotros">
+  <div class="about-container">
+    <div class="about-intro">
+      <h2 class="section-title">Nosotros</h2>
+    </div>
+
+    <div class="about-main">
+      <div class="about-text-card">
+        <span class="about-number">01 / NUESTRA IDENTIDAD</span>
+        <h3>
+          Una comunidad que
+          <strong>aprende, crea e innova.</strong>
+        </h3>
+        <p>
+          Nuestro enfoque combina una sólida formación académica alineada al CNEB
+          con experiencias que despiertan la curiosidad, la creatividad
+          y el pensamiento crítico en nuestros estudiantes.
+        </p>
+        <p>
+          Queremos que cada estudiante encuentre un espacio donde pueda desarrollar
+          sus capacidades, descubrir sus intereses y prepararse para los retos del futuro,
+          contando con el apoyo constante de sus docentes y familias.
+        </p>
+        <div class="about-quote">
+          <p>
+            “Convertimos el aprendizaje en una experiencia que inspira a nuestros estudiantes a alcanzar sus metas.”
+          </p>
+        </div>
+      </div>
+
+      <div class="about-stats">
+        <div class="stat-card">
+          <strong>+600</strong>
+          <span>Estudiantes que forman parte de nuestra comunidad</span>
+        </div>
+        <div class="stat-card">
+          <strong>+28</strong>
+          <span>Docentes comprometidos con la educación</span>
+        </div>
+        <div class="stat-card">
+          <strong>45</strong>
+          <span>Años construyendo experiencias educativas (Desde 1978)</span>
+        </div>
+        <div class="stat-card satisfaction">
+          <strong>98<span>%</span></strong>
+          <span>De satisfacción de nuestra comunidad educativa</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="process">
+      <div class="process-heading">
+        <div>
+          <span class="process-label">02 / NUESTRO ENFOQUE</span>
+          <h3>Aprender es un proceso.</h3>
+        </div>
+        <p>
+          Acompañamos a nuestros estudiantes desde la curiosidad hasta la creación.
+        </p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <span class="process-bg-number">01</span>
+          <h4>Descubrimos</h4>
+          <p>Entendemos el mundo a través de la curiosidad.</p>
+        </div>
+        <div class="process-card">
+          <span class="process-bg-number">02</span>
+          <h4>Exploramos</h4>
+          <p>Experimentamos y buscamos nuevas posibilidades.</p>
+        </div>
+        <div class="process-card">
+          <span class="process-bg-number">03</span>
+          <h4>Desarrollamos</h4>
+          <p>Convertimos nuestras ideas en proyectos concretos.</p>
+        </div>
+        <div class="process-card">
+          <span class="process-bg-number">04</span>
+          <h4>Transformamos</h4>
+          <p>Aplicamos lo aprendido para generar impacto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- NUEVO BLOQUE: PROBLEMA Y SOLUCIÓN (id="desafio") -->
+<!-- ========================================== -->
+<section class="problem-solution-section" id="desafio">
+  <div class="problem-solution-container">
+    
+    <h2 class="section-title">El Desafío y Nuestra Propuesta</h2>
+    <p class="section-subtitle">Conoce el contexto que nos motivó a crear esta solución tecnológica</p>
+
+    <div class="problem-solution-grid">
+      <div class="ps-card ps-card--problem">
+        <div class="ps-card__icon">⚠️</div>
+        <h3 class="ps-card__title">El problema que resolvemos</h3>
+        <p class="ps-card__desc">
+          La I.E. N.° 20190 "República de Chile" enfrentaba un control manual de notas 
+          que dificultaba el seguimiento académico por competencias (CNEB), generaba 
+          desconexión entre el hogar y la escuela, y no permitía detectar a tiempo 
+          a estudiantes en riesgo de bajo rendimiento.
+        </p>
+      </div>
+
+      <div class="ps-card ps-card--solution">
+        <div class="ps-card__icon">💡</div>
+        <h3 class="ps-card__title">Nuestra solución</h3>
+        <p class="ps-card__desc">
+          Un portal académico web centralizado que automatiza el registro de evaluaciones, 
+          ofrece una matriz transaccional de notas para docentes, un dashboard de supervisión 
+          para directivos y canales digitales con alertas tempranas para padres de familia.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SERVICIOS -->
+<!-- ========================================== -->
+<section id="servicios" class="servicios">
+  <div class="servicios__container">
+    <h2 class="section-title">Nuestros Servicios</h2>
+    <p class="section-subtitle">Herramientas diseñadas para potenciar la gestión educativa</p>
+    <div class="servicios__grid">
+      <div class="servicio-card" *ngFor="let s of servicios">
+        <div class="servicio-card__icon">{{ s.icono }}</div>
+        <h3 class="servicio-card__title">{{ s.titulo }}</h3>
+        <p class="servicio-card__desc">{{ s.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- BENEFICIOS -->
+<!-- ========================================== -->
+<section id="beneficios" class="beneficios">
+  <div class="beneficios__container">
+    <h2 class="section-title">Beneficios Clave</h2>
+    <p class="section-subtitle">Ventajas de nuestra solución para toda la comunidad educativa</p>
+    <div class="beneficios__grid">
+      <div class="beneficio-card" *ngFor="let b of beneficios; let i = index">
+        <div class="beneficio-card__header">
+          <span class="beneficio-card__num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          <div class="beneficio-card__icon">{{ b.icono }}</div>
+        </div>
+        <h3 class="beneficio-card__title">{{ b.titulo }}</h3>
+        <p class="beneficio-card__desc">{{ b.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- CARACTERÍSTICAS -->
+<!-- ========================================== -->
+<section id="caracteristicas" class="caracteristicas">
+  <div class="caracteristicas__container">
+    <h2 class="section-title">Características del Proyecto</h2>
+    <p class="section-subtitle">Herramientas diseñadas para facilitar la gestión educativa</p>
+    <div class="caracteristicas__list">
+      <div class="caracteristica-item" *ngFor="let c of caracteristicas; let i = index">
+        <span class="caracteristica-item__num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+        <div>
+          <h3>{{ c.titulo }}</h3>
+          <p>{{ c.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- CONTACTO (FORMULARIO CORREGIDO) -->
+<!-- ========================================== -->
+<section id="contacto" class="contacto">
+  <div class="contacto__container">
+    <div class="contacto__info-wrapper">
+      <h2 class="contacto__title">¿Listo para transformar la gestión académica?</h2>
+      <p class="contacto__subtitle">
+        Déjanos tus datos o contáctanos directamente. Nuestro equipo está listo para ayudarte a implementar el portal en tu institución.
+      </p>
+      <div class="contacto__items">
+        <div class="contacto__item">
+          <span class="contacto__icon">📧</span>
+          <div>
+            <span class="contacto__label">Escríbenos</span>
+            <span class="contacto__value">repubchile20190&#64;hotmail.com</span>
+          </div>
+        </div>
+        <div class="contacto__item">
+          <span class="contacto__icon">📞</span>
+          <div>
+            <span class="contacto__label">Llámanos</span>
+            <span class="contacto__value">5811137</span>
+          </div>
+        </div>
+        <div class="contacto__item">
+          <span class="contacto__icon">📍</span>
+          <div>
+            <span class="contacto__label">Visítanos</span>
+            <span class="contacto__value">Jr. Tacna 185 - 187, San Vicente de Cañete, Lima - Perú</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contacto__form-wrapper">
+      <form class="contacto__form" [formGroup]="contactoForm" (ngSubmit)="enviarMensaje()">
+        <h3 class="contacto__form-title">Envíanos un mensaje</h3>
+        
+        <div class="mensaje-exito" *ngIf="mensajeExito">{{ mensajeExito }}</div>
+
+        <!-- Campo Nombre -->
+        <div class="form-group">
+          <label for="nombre">Nombre completo *</label>
+          <input type="text" id="nombre" formControlName="nombre" placeholder="Ej. Juan Pérez" 
+                 (blur)="nombre.markAsTouched()"
+                 [class.is-invalid]="(enviado || nombre.touched) && nombre.invalid">
+          
+          <div class="error" *ngIf="(enviado || nombre.touched) && nombre.invalid">
+            <span *ngIf="nombre.hasError('required')">⚠ El nombre es obligatorio.</span>
+            <span *ngIf="nombre.hasError('minlength')">⚠ Mínimo 3 caracteres.</span>
+            <span *ngIf="nombre.hasError('maxlength')">⚠ Máximo 50 caracteres.</span>
+            <span *ngIf="nombre.hasError('pattern')">⚠ El nombre solo debe contener letras.</span>
+          </div>
+        </div>
+
+        <!-- Campo Correo -->
+        <div class="form-group">
+          <label for="correo">Correo electrónico *</label>
+          <input type="email" id="correo" formControlName="correo" placeholder="Ej. juan@correo.com" 
+                 (blur)="correo.markAsTouched()"
+                 [class.is-invalid]="(enviado || correo.touched) && correo.invalid">
+          
+          <div class="texto-info" *ngIf="correo.pending">Verificando correo...</div>
+          
+          <div class="error" *ngIf="(enviado || correo.touched) && correo.invalid">
+            <span *ngIf="correo.hasError('required')">⚠ El correo es obligatorio.</span>
+            <span *ngIf="correo.hasError('email')">⚠ Formato de correo inválido.</span>
+            <span *ngIf="correo.hasError('correoRegistrado')">⚠ Este correo ya está registrado en el sistema.</span>
+          </div>
+        </div>
+
+        <!-- Campo Mensaje -->
+        <div class="form-group">
+          <label for="mensaje">Mensaje *</label>
+          <textarea id="mensaje" formControlName="mensaje" rows="4" placeholder="¿En qué podemos ayudarte?" 
+                    (blur)="mensaje.markAsTouched()"
+                    [class.is-invalid]="(enviado || mensaje.touched) && mensaje.invalid"></textarea>
+          
+          <div class="error" *ngIf="(enviado || mensaje.touched) && mensaje.invalid">
+            <span *ngIf="mensaje.hasError('required')">⚠ El mensaje es obligatorio.</span>
+            <span *ngIf="mensaje.hasError('minlength')">⚠ El mensaje debe tener al menos 10 caracteres.</span>
+            <span *ngIf="mensaje.hasError('maxlength')">⚠ El mensaje no puede superar los 200 caracteres.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn--primary contacto__btn" [disabled]="contactoForm.invalid || contactoForm.pending">
+          {{ contactoForm.pending ? 'Verificando...' : 'Enviar Mensaje' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- FOOTER -->
+<!-- ========================================== -->
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__col">
+      <h4>
+        <img src="assets/images/logo.png" alt="Logo" class="footer__logo-img">
+        I.E. N.° 20190 "República de Chile"
+      </h4>
+      <p>Jr. Tacna 185 - 187, San Vicente de Cañete</p>
+      <p class="footer__desc">Transformando la educación con tecnología e innovación.</p>
+    </div>
+    <div class="footer__col">
+      <h4>Contacto</h4>
+      <p>📧 repubchile20190&#64;hotmail.com</p>
+      <p>📞 5811137</p>
+    </div>
+    <div class="footer__col">
+      <h4>Enlaces Rápidos</h4>
+      <a (click)="scrollToSection('inicio', $event)" style="cursor: pointer;">Inicio</a>
+      <a (click)="scrollToSection('servicios', $event)" style="cursor: pointer;">Servicios</a>
+      <a (click)="scrollToSection('beneficios', $event)" style="cursor: pointer;">Beneficios</a>
+      <a (click)="scrollToSection('contacto', $event)" style="cursor: pointer;">Contacto</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>&copy; {{ year }} I.E. N.° 20190 "República de Chile". Todos los derechos reservados.</p>
+  </div>
+</footer>

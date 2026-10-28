@@ -1,0 +1,71 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Competencia' : 'Nueva Competencia' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="competenciaForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Curso -->
+        <div class="form-group">
+          <label>Curso *</label>
+          <select formControlName="courseId" class="form-control" 
+                  (blur)="f['courseId'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['courseId'].touched) && f['courseId'].invalid">
+            <option value="">-- Seleccione un curso --</option>
+            <option *ngFor="let curso of cursos" [value]="curso.idCurso">{{ curso.nombre }}</option>
+          </select>
+          <div *ngIf="(submitted || f['courseId'].touched) && f['courseId'].invalid" class="error">
+            <span *ngIf="f['courseId'].errors?.['required']">⚠ Curso es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Código -->
+        <div class="form-group">
+          <label>Código *</label>
+          <input type="text" formControlName="code" class="form-control" placeholder="Ej: MAT-01" 
+                 (blur)="f['code'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['code'].touched) && f['code'].invalid">
+          <div *ngIf="(submitted || f['code'].touched) && f['code'].invalid" class="error">
+            <span *ngIf="f['code'].errors?.['required']">⚠ Código es obligatorio.</span>
+            <span *ngIf="f['code'].errors?.['pattern']">⚠ Solo mayúsculas, números y guiones.</span>
+          </div>
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group full-width">
+          <label>Nombre *</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre de la competencia" 
+                 (blur)="f['name'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['name'].touched) && f['name'].invalid">
+          <div *ngIf="(submitted || f['name'].touched) && f['name'].invalid" class="error">
+            <span *ngIf="f['name'].errors?.['required']">⚠ Nombre es obligatorio.</span>
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group full-width">
+          <label>Descripción</label>
+          <input type="text" formControlName="description" class="form-control" placeholder="Descripción (Opcional)" 
+                 (blur)="f['description'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['description'].touched) && f['description'].invalid">
+          <div *ngIf="(submitted || f['description'].touched) && f['description'].invalid" class="error">
+            <span *ngIf="f['description'].errors?.['maxlength']">⚠ Máximo 500 caracteres.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || competenciaForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

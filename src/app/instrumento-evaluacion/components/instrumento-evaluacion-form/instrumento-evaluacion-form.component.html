@@ -1,0 +1,121 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Editar Instrumento de Evaluación' : 'Nuevo Instrumento de Evaluación' }}</h2>
+  </div>
+
+  <div class="form-body">
+    <form [formGroup]="instrumentoForm" (ngSubmit)="onSubmit()">
+
+      <div class="alerta-cambios" *ngIf="mostrarAdvertenciaDirty">
+        ✍️ Tienes datos válidos sin guardar. No olvides presionar "{{ isEditMode ? 'Actualizar' : 'Guardar' }}".
+      </div>
+
+      <div class="form-grid">
+        <!-- Competencia -->
+        <div class="form-group">
+          <label>Competencia *</label>
+          <select formControlName="idCompetencia" class="form-control" 
+                  (blur)="f['idCompetencia'].markAsTouched()"
+                  [class.is-invalid]="(submitted || f['idCompetencia'].touched) && f['idCompetencia'].invalid">
+            <option value="" disabled>-- Seleccione una Competencia --</option>
+            <option *ngFor="let comp of competencias" [value]="comp.idCompetencia">{{ comp.codigo }} - {{ comp.nombre }}</option>
+          </select>
+          <div *ngIf="(submitted || f['idCompetencia'].touched) && f['idCompetencia'].invalid" class="error">
+            <span *ngIf="f['idCompetencia'].errors?.['required']">⚠ Debe seleccionar una competencia.</span>
+          </div>
+        </div>
+
+        <!-- Tipo -->
+        <div class="form-group">
+          <label>Tipo *</label>
+          <input type="text" formControlName="tipo" class="form-control" placeholder="Ej. Rúbrica, Lista de cotejo" 
+                 (blur)="f['tipo'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['tipo'].touched) && f['tipo'].invalid">
+          <div *ngIf="(submitted || f['tipo'].touched) && f['tipo'].invalid" class="error">
+            <span *ngIf="f['tipo'].errors?.['required']">⚠ El tipo es obligatorio.</span>
+            <span *ngIf="f['tipo'].errors?.['minlength']">⚠ Mínimo 3 caracteres.</span>
+            <span *ngIf="f['tipo'].errors?.['maxlength']">⚠ Máximo 50 caracteres.</span>
+            <span *ngIf="f['tipo'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group full-width">
+          <label>Nombre del Instrumento *</label>
+          <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre del instrumento" 
+                 (blur)="f['nombre'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['nombre'].touched) && f['nombre'].invalid">
+          <div *ngIf="(submitted || f['nombre'].touched) && f['nombre'].invalid" class="error">
+            <span *ngIf="f['nombre'].errors?.['required']">⚠ El nombre es obligatorio.</span>
+            <span *ngIf="f['nombre'].errors?.['minlength']">⚠ Mínimo 5 caracteres.</span>
+            <span *ngIf="f['nombre'].errors?.['maxlength']">⚠ Máximo 100 caracteres.</span>
+            <span *ngIf="f['nombre'].errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+          </div>
+        </div>
+
+        <!-- Peso Conceptual -->
+        <div class="form-group">
+          <label>Peso Conceptual (%) *</label>
+          <input type="number" step="0.01" formControlName="pesoConceptual" class="form-control" placeholder="Ej: 20" 
+                 (blur)="f['pesoConceptual'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['pesoConceptual'].touched) && f['pesoConceptual'].invalid">
+          <div *ngIf="(submitted || f['pesoConceptual'].touched) && f['pesoConceptual'].invalid" class="error">
+            <span *ngIf="f['pesoConceptual'].errors?.['required']">⚠ El peso es obligatorio.</span>
+            <span *ngIf="f['pesoConceptual'].errors?.['min']">⚠ El peso debe ser mayor a 0.</span>
+            <span *ngIf="f['pesoConceptual'].errors?.['max']">⚠ El peso no puede superar el 100%.</span>
+          </div>
+        </div>
+
+        <!-- Fecha de Evaluación -->
+        <div class="form-group">
+          <label>Fecha de Evaluación</label>
+          <input type="date" formControlName="fechaEvaluacion" class="form-control" 
+                 (blur)="f['fechaEvaluacion'].markAsTouched()"
+                 [class.is-invalid]="(submitted || f['fechaEvaluacion'].touched) && f['fechaEvaluacion'].invalid">
+          <div *ngIf="(submitted || f['fechaEvaluacion'].touched) && f['fechaEvaluacion'].invalid" class="error">
+            <span *ngIf="f['fechaEvaluacion'].errors?.['fechaPasada']">⚠ La fecha no puede ser anterior a hoy.</span>
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group full-width">
+          <label>Descripción</label>
+          <textarea formControlName="descripcion" class="form-control" rows="3" placeholder="Descripción (Opcional)" 
+                    (blur)="f['descripcion'].markAsTouched()"
+                    [class.is-invalid]="(submitted || f['descripcion'].touched) && f['descripcion'].invalid"></textarea>
+          <div *ngIf="(submitted || f['descripcion'].touched) && f['descripcion'].invalid" class="error">
+            <span *ngIf="f['descripcion'].errors?.['maxlength']">⚠ Máximo 250 caracteres.</span>
+          </div>
+        </div>
+
+        <!-- Evidencias Dinámicas -->
+        <div class="form-group full-width" formArrayName="evidenciasArray">
+          <label>Evidencias *</label>
+          <div *ngFor="let evCtrl of evidenciasArray.controls; let i = index" class="dynamic-row">
+            <div class="input-wrapper">
+              <input type="text" [formControlName]="i" class="form-control" placeholder="Escribe una evidencia" 
+                     (blur)="evCtrl.markAsTouched()"
+                     [class.is-invalid]="(submitted || evCtrl.touched) && evCtrl.invalid">
+              <div *ngIf="(submitted || evCtrl.touched) && evCtrl.invalid" class="error">
+                <span *ngIf="evCtrl.errors?.['required']">⚠ Evidencia obligatoria.</span>
+                <span *ngIf="evCtrl.errors?.['minlength']">⚠ Mínimo 5 caracteres.</span>
+                <span *ngIf="evCtrl.errors?.['sinEspacios']">⚠ No puede ser solo espacios.</span>
+              </div>
+            </div>
+            <button type="button" class="btn-remove" (click)="removeEvidencia(i)" *ngIf="evidenciasArray.length > 1">🗑️</button>
+          </div>
+          <button type="button" class="btn-add" (click)="addEvidencia()" [disabled]="evidenciasArray.length >= 5">
+            + Agregar Evidencia {{ evidenciasArray.length >= 5 ? '(Máximo alcanzado)' : '' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || instrumentoForm.invalid">
+          {{ loading ? 'Procesando...' : (isEditMode ? 'Actualizar' : 'Guardar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

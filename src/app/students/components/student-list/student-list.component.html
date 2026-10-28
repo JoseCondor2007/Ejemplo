@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Estudiantes</h2>
+    <button class="btn-primary" routerLink="/estudiantes/nuevo">+ Nuevo Estudiante</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter">
+      <label>Estado:</label>
+      <select [(ngModel)]="filterState" (change)="onFilterChange(filterState)">
+        <option value="T">Todos</option>
+        <option value="A">Activos</option>
+        <option value="I">Inactivos</option>
+      </select>
+    </div>
+    <label class="search">
+      <span>Buscar:</span>
+      <input
+        type="search"
+        [(ngModel)]="searchTerm"
+        placeholder="Nombre, apellido o documento"
+        aria-label="Buscar estudiante">
+    </label>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>N° Documento</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Fecha Nac.</th>
+          <th>Sexo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ✅ Usamos propiedades en inglés -->
+        <tr *ngFor="let student of filteredStudents">
+          <td>{{ student.studentId }}</td>
+          <td>{{ student.documentNumber }}</td>
+          <td>{{ student.firstNames }}</td>
+          <td>{{ student.lastNames }}</td>
+          <td>{{ student.birthDate }}</td>
+          <td>{{ student.sex === 'M' ? 'Masculino' : 'Femenino' }}</td>
+          <td>
+            <span class="badge" [class.active]="student.status === true" [class.inactive]="student.status === false">
+              {{ student.status ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/estudiantes/editar', student.studentId]" title="Editar">✏️</button>
+            <button *ngIf="student.status === true" class="btn-delete" (click)="desactivar(student.studentId!)" title="Desactivar">🗑️</button>
+            <button *ngIf="student.status === false" class="btn-restore" (click)="restaurar(student.studentId!)" title="Restaurar">🔄</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredStudents.length === 0">
+          <td colspan="8" class="empty">No se encontraron estudiantes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
